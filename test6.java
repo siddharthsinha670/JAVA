@@ -1,13 +1,13 @@
 //static member
-class A {
-   static  private int x;
+class A1 {
+     static private int x;
     private int y;
-    public A()
+    public A1()
     {
         x =1;
         y=y+2;
     }
-    public A(int x1)
+    public A1(int x1)
     {
         x = x1;
         y = y+3;
@@ -22,13 +22,13 @@ public class test6
 {
     public static void main(String args[])
     {
-        A a1 = new  A(9);
+        A1 a1 = new  A1(9);
         a1. show();
-        A a2 = new A();
+        A1 a2 = new A1();
         a2.show ();
-        A a3 = new A();
+        A1 a3 = new A1();
         a3.show();
-        A a4 = new A(5);
+        A1 a4 = new A1(5);
         a4.show();
     }
 }
