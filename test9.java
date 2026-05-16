@@ -3,13 +3,13 @@
 import java.util.Scanner;
 class players
 {
-    private int name;
+    private String name;
     private int no;
     public void input()
     {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the name of the player:");
-        name = sc.nextInt();
+        name = sc.next();
         System.out.println("Enter the jercy no of the player:");
         no = sc.nextInt();
     }

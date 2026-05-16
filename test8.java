@@ -2,13 +2,13 @@
 import java.util.Scanner;
 class student2
 {
-    private int name;
+    private String name;
     private int rollno;
     public void input()
     {
         Scanner sc = new Scanner (System.in);
         System.out.println("Enter the name of the student:");
-        name = sc.nextInt();
+        name = sc.next();
         System.out.print("Enter the rollno of the Student");
         rollno = sc.nextInt();
     }
