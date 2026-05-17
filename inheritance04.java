@@ -1,19 +1,42 @@
 class employee
 {
-    String name;
-    int salary;
-    public employee(String n,int s)
+    public employee()
     {
-        name = n;
-        salary = s;
+        System.out.println("Constructor of the employee.");
     }
-    public void showDetails()
+    public void name()
     {
-        System.out.println("name:"+name);
-        System.out.println("salary"+salary);
+        System.out.println("Enter the name of the employee");
+    }
+    public void salary()
+    {
+        System.out.println("The salary of the employee is:");
     }
 }
-class Developer extends employee
+class empdetails extends employee
 {
+    public empdetails()
+    {
+        System.out.println("Constructor of the employee details");
+    }
+    public void empname()
+    {
+        System.out.println("The name of the employee is rahul.");
+    }
+    public void empsalary()
+    {
+        System.out.println("The salary of the employee is 50k");
+    }
+}
+public class inheritance04
+{
+    public static void main(String[] args)
+    {
+        empdetails emp = new empdetails();
+        emp.name();
+        emp.empname();
+        emp.salary();
+        emp.empsalary();
+    }
     
 }
