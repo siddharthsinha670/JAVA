@@ -41,5 +41,4 @@ class pizza extends resturent
     {
         System.out.println("The name of the order is Pizza");
     }
-    
 }

@@ -15,5 +15,13 @@ class employee
 }
 class details extends employee
 {
+    public details()
+    {
+        System.out.println("consturctor of the employee's details.");
+    }
+    public void name()
+    {
+        System.out.println("")
+    }
 
 }
