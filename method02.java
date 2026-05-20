@@ -2,7 +2,7 @@ class method
 {
     public static void main(String args[])
     {
-        method m = sum method();
+        method m = new method();
         m.sum();
     }
     static void sum()

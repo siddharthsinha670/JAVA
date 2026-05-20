@@ -7,7 +7,6 @@ class method
     }
     static int sum(int a,int b)//defination
     {
-        return (a,b);
-
+        return a + b;
     }
 }
