@@ -7,6 +7,7 @@ public class revision05 {
         Scanner sc = new Scanner(System.in);
         int num, i;
         System.out.println("Enter the integer values");
+        
 
     }
 }
