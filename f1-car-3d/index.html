@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apex 3D // Formula 1 Hyper Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <!-- Three.js + OrbitControls + Postprocessing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <!-- Canvas-confetti for podium celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+  <!-- Canvas Container -->
+  <div id="canvas-container"></div>
+
+  <!-- Ambient Glow Gradients -->
+  <div class="ambient-glow top-left"></div>
+  <div class="ambient-glow bottom-right"></div>
+
+  <!-- UI Overlay -->
+  <header class="top-nav">
+    <div class="brand">
+      <div class="f1-badge">F1</div>
+      <div class="brand-text">
+        <span class="title">APEX // HYPER-SPEC</span>
+        <span class="subtitle">2026 GENERATION RACING PROTOTYPE</span>
+      </div>
+    </div>
+
+    <!-- Mode Selector Tabs -->
+    <div class="mode-tabs">
+      <button class="tab-btn active" data-mode="showroom">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        SHOWROOM
+      </button>
+      <button class="tab-btn" data-mode="aero">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+        AERODYNAMICS
+      </button>
+      <button class="tab-btn" data-mode="xray">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+        EXPLODED / X-RAY
+      </button>
+      <button class="tab-btn highlight" data-mode="drive">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+        DRIVE TEST
+      </button>
+    </div>
+
+    <!-- Quick Audio & Lighting Action -->
+    <div class="nav-actions">
+      <button id="sound-btn" class="icon-btn" title="Toggle V6 Turbo Audio">
+        <span id="sound-icon">🔊</span>
+      </button>
+      <button id="camera-reset-btn" class="icon-btn" title="Reset View">
+        <span>🔄</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Left Sidebar: Teams & Customizer -->
+  <aside class="sidebar left-panel" id="customizer-panel">
+    <div class="panel-section">
+      <h3>OFFICIAL LIVERIES</h3>
+      <div class="preset-grid">
+        <button class="livery-btn active" data-preset="ferrari">
+          <span class="swatch" style="background: linear-gradient(135deg, #e10600 50%, #ffeb3b 50%);"></span>
+          SCUDERIA RED
+        </button>
+        <button class="livery-btn" data-preset="redbull">
+          <span class="swatch" style="background: linear-gradient(135deg, #060024 50%, #e60026 50%);"></span>
+          BULL RACING
+        </button>
+        <button class="livery-btn" data-preset="mercedes">
+          <span class="swatch" style="background: linear-gradient(135deg, #00A19C 50%, #111111 50%);"></span>
+          SILVER ARROW
+        </button>
+        <button class="livery-btn" data-preset="mclaren">
+          <span class="swatch" style="background: linear-gradient(135deg, #FF8000 50%, #00d2be 50%);"></span>
+          PAPAYA ORANGE
+        </button>
+        <button class="livery-btn" data-preset="aston">
+          <span class="swatch" style="background: linear-gradient(135deg, #00594f 50%, #c4f300 50%);"></span>
+          ASTON GREEN
+        </button>
+        <button class="livery-btn" data-preset="stealth">
+          <span class="swatch" style="background: linear-gradient(135deg, #181818 50%, #d4af37 50%);"></span>
+          CARBON GOLD
+        </button>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h3>CUSTOM COLORWAY</h3>
+      <div class="color-row">
+        <label>Primary Body</label>
+        <div class="color-picker-wrap">
+          <input type="color" id="primary-color" value="#e10600">
+          <span class="hex-tag" id="primary-hex">#E10600</span>
+        </div>
+      </div>
+      <div class="color-row">
+        <label>Aero Accent</label>
+        <div class="color-picker-wrap">
+          <input type="color" id="accent-color" value="#ffffff">
+          <span class="hex-tag" id="accent-hex">#FFFFFF</span>
+        </div>
+      </div>
+      <div class="color-row">
+        <label>Gloss / Metallic</label>
+        <input type="range" id="metal-range" min="0" max="1" step="0.05" value="0.85">
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h3>PIRELLI TYRE COMPOUND</h3>
+      <div class="compound-grid">
+        <button class="compound-btn active" data-compound="soft">
+          <span class="compound-dot" style="background: #ff1801; box-shadow: 0 0 10px #ff1801;"></span>
+          SOFT (C5)
+        </button>
+        <button class="compound-btn" data-compound="medium">
+          <span class="compound-dot" style="background: #ffd600; box-shadow: 0 0 10px #ffd600;"></span>
+          MEDIUM (C3)
+        </button>
+        <button class="compound-btn" data-compound="hard">
+          <span class="compound-dot" style="background: #ffffff; box-shadow: 0 0 10px #ffffff;"></span>
+          HARD (C1)
+        </button>
+        <button class="compound-btn" data-compound="wet">
+          <span class="compound-dot" style="background: #0077ff; box-shadow: 0 0 10px #0077ff;"></span>
+          WET (BLUE)
+        </button>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h3>ENVIRONMENT</h3>
+      <div class="env-toggle-group">
+        <button class="env-btn active" data-env="showroom">Showroom</button>
+        <button class="env-btn" data-env="track">Night GP Track</button>
+        <button class="env-btn" data-env="cyber">Cyber Neon</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Right Sidebar: Technical Telemetry & Aero Specs -->
+  <aside class="sidebar right-panel" id="telemetry-panel">
+    <div class="panel-section">
+      <h3>LIVE TELEMETRY</h3>
+      <div class="stat-card">
+        <div class="stat-label">DOWNFORCE (AT 300 KM/H)</div>
+        <div class="stat-val" id="downforce-val">1,840 <span>KG</span></div>
+        <div class="stat-bar"><div class="fill" style="width: 88%;"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">DRAG COEFFICIENT (Cd)</div>
+        <div class="stat-val" id="cd-val">0.68 <span class="badge drs-badge" id="drs-status">DRS OFF</span></div>
+        <div class="stat-bar"><div class="fill" id="cd-fill" style="width: 68%;"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">HYBRID POWER OUTPUT</div>
+        <div class="stat-val">1,020 <span>BHP</span></div>
+        <div class="stat-bar"><div class="fill" style="width: 95%; background: linear-gradient(90deg, #00f2fe, #4facfe);"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">CURB WEIGHT</div>
+        <div class="stat-val">798 <span>KG (MIN)</span></div>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h3>AERO & WING CONTROLS</h3>
+      <div class="control-toggle-row">
+        <span>DRS REAR WING FLAP</span>
+        <button class="toggle-btn" id="drs-toggle">DEPLOY DRS</button>
+      </div>
+      <div class="control-toggle-row">
+        <span>FIA RAIN LIGHT / LED</span>
+        <button class="toggle-btn active" id="rain-light-toggle">ACTIVE</button>
+      </div>
+      <div class="control-toggle-row">
+        <span>TURNTABLE AUTO-SPIN</span>
+        <button class="toggle-btn active" id="turntable-toggle">ON</button>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h3>CAMERA PERSPECTIVES</h3>
+      <div class="camera-grid">
+        <button class="cam-btn active" data-cam="orbit">360° ORBIT</button>
+        <button class="cam-btn" data-cam="cockpit">COCKPIT POV</button>
+        <button class="cam-btn" data-cam="front">NOSE CONE</button>
+        <button class="cam-btn" data-cam="rear">REAR DIFFUSER</button>
+        <button class="cam-btn" data-cam="side">TRACKSIDE</button>
+        <button class="cam-btn" data-cam="halo">HALO CAM</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Drive Mode HUD (Shown during Drive Mode) -->
+  <div id="drive-hud" class="drive-hud hidden">
+    <!-- Tachometer / Speedometer Cluster -->
+    <div class="speed-cluster">
+      <div class="gear-display" id="hud-gear">N</div>
+      <div class="speed-readout">
+        <span class="speed-num" id="hud-speed">0</span>
+        <span class="speed-unit">KM/H</span>
+      </div>
+      <div class="rpm-bar-container">
+        <div class="rpm-leds" id="rpm-leds">
+          <!-- 15 RPM Shift Indicator Lights -->
+        </div>
+        <div class="rpm-fill" id="hud-rpm-fill"></div>
+      </div>
+      <div class="ers-bar">
+        <span class="ers-label">ERS HYBRID BOOST</span>
+        <div class="ers-meter"><div class="ers-fill" id="hud-ers-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- Mini Telemetry Box -->
+    <div class="drive-telemetry">
+      <div class="tele-item"><span>THROTTLE:</span> <b id="tele-throttle">0%</b></div>
+      <div class="tele-item"><span>BRAKE:</span> <b id="tele-brake">0%</b></div>
+      <div class="tele-item"><span>G-FORCE:</span> <b id="tele-gforce">0.0 G</b></div>
+      <div class="tele-item"><span>DRS STATUS:</span> <b id="tele-drs" class="text-inactive">DISABLED</b></div>
+    </div>
+
+    <!-- Drive Instructions Box -->
+    <div class="drive-controls-guide">
+      <div class="guide-title">🎮 RACE CONTROLS</div>
+      <div class="keys-grid">
+        <div><kbd>W</kbd> / <kbd>▲</kbd> <span>ACCELERATE</span></div>
+        <div><kbd>S</kbd> / <kbd>▼</kbd> <span>BRAKE / REVERSE</span></div>
+        <div><kbd>A</kbd> / <kbd>D</kbd> <span>STEER CAR</span></div>
+        <div><kbd>SPACE</kbd> <span>DRS / BOOST</span></div>
+        <div><kbd>C</kbd> <span>CYCLE CAMERA</span></div>
+        <div><kbd>R</kbd> <span>RESET CAR</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Hotspot Tooltip -->
+  <div id="hotspot-tooltip" class="hotspot-tooltip hidden">
+    <div class="tooltip-title" id="tooltip-title">FRONT WING VORTEX GENERATOR</div>
+    <div class="tooltip-desc" id="tooltip-desc">Directs turbulent tire wake away from the underfloor ground-effect venturi tunnels.</div>
+  </div>
+
+  <!-- Footer Information -->
+  <footer class="bottom-bar">
+    <div class="engine-badge">
+      <span class="pulse-dot"></span>
+      <span>1.6L TURBOCHARGED V6 HYBRID // 15,000 RPM SPEC</span>
+    </div>
+    <div class="hint-text">
+      <span>🖱️ Drag to rotate car • Scroll to zoom • Click parts to inspect</span>
+    </div>
+    <div class="specs-badge">
+      <span>FIA 2026 TECHNICAL REGULATIONS COMPLIANT</span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
